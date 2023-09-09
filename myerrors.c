@@ -1,20 +1,20 @@
-#include "shell.h"
+#include "myshell.h"
 
 /**
  *_eputs - prints an input string
- * @str: the string to be printed
+ * @message: the string to be printed
  *
  * Return: Nothing
  */
-void _eputs(char *str)
+void _eputs(char *message)
 {
 	int i = 0;
 
-	if (!str)
+	if (!message)
 		return;
-	while (str[i] != '\0')
+	while (message[i] != '\0')
 	{
-		_eputchar(str[i]);
+		_eputchar(message[i]);
 		i++;
 	}
 }
@@ -44,19 +44,19 @@ int _eputchar(char c)
 /**
  * _putfd - writes the character c to given fd
  * @c: The character to print
- * @fd: The filedescriptor to write to
+ * @file_descriptor: The file descriptor to write to
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _putfd(char c, int fd)
+int _putfd(char c, int file_descriptor)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
 
 	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
-		write(fd, buf, i);
+		write(file_descriptor, buf, i);
 		i = 0;
 	}
 	if (c != BUF_FLUSH)
@@ -66,20 +66,20 @@ int _putfd(char c, int fd)
 
 /**
  *_putsfd - prints an input string
- * @str: the string to be printed
- * @fd: the filedescriptor to write to
+ * @message: the string to be printed
+ * @file_descriptor: the file descriptor to write to
  *
  * Return: the number of chars put
  */
-int _putsfd(char *str, int fd)
+int _putsfd(char *message, int file_descriptor)
 {
 	int i = 0;
 
-	if (!str)
+	if (!message)
 		return (0);
-	while (*str)
+	while (*message)
 	{
-		i += _putfd(*str++, fd);
+		i += _putfd(*message++, file_descriptor);
 	}
 	return (i);
 }
